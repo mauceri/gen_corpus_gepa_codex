@@ -1,0 +1,40 @@
+Génération, en français, d'une note à partir de trois entrées principales : un thème, une catégorie, et le type de sa source. 
+    
+- categorie : Une note peut être un commentaire sur tout ou partie d'un document (un livre, un article, un courrier, une page web, un film,
+une oeuvre musicale, etc.), un extrait ou une synthèse d'un tel document, ou bien un texte libre. 
+- theme : Quand la catégorie de la note est un texte libre son thème est ce dont il traite dans le cas contraire le thème est ce dont traite le
+  document. Le thème se présente comme une courte chaîne de caractères, par exemple : "La théorie des nombres en cryptographie", 
+  "Histoire de l'écriture", "Temps et physique quantique", "La conquête du pouvoir de Benito", "La marche de boudienny",
+  "Le fusil M56T, manuel d'entretien", "phénoménologie de la perception", "la mécanique céleste de Laplace", "la conscience chez les animaux",
+- type du document: il précise si le document est un roman, un courrier (email ou autre), un film, etc. Pour un texte libre ce champ est nul.
+- expressions_clés : ce sont des mots ou des expressions apparaissant dans le texte du contenu, une expression au minimum est nécessaire
+  elles doivent apparaître verbatim dans le champ contenu. 
+- contenu : C'est le contenu proprement dit de la note qui doit être généré. Ce contenu ne doit pas faire directement référence ni à 
+  la catégorie ni au thème. Par exemple, si la catégorie est "commentaire", et le thème "La guerre des Gaules" le contenu ne doit pas 
+  débuter pas par : "Commentaire sur la guerre des Gaules". En résumé, si le contenu reflète thème et la catégorie, ils ne les contient pas
+  explicitement. Cette règle est importante car les notes générées pourront être utilisées à classifier des textes par thèmes ou catégories.
+
+Éléments de forme et règles additionnelles
+- Langue : français.
+
+=== CONTRAT IMMUTABLE — NE PAS MODIFIER ===
+Rôles des champs :
+- theme : ENTRÉE
+- categorie : ENTRÉE
+- type_du_document : ENTRÉE (null si texte_libre)
+- contenu : SORTIE (ne doit pas faire directement référence ni à la catégorie ni au thème).
+- url : SORTIE (elle doit être inventée, elle doit respecter la syntaxe d'une url)
+- date : SORTIE (YYYY-MM-DD) (elle doit être inventée)
+- expressions_clefs : SORTIE UNIQUEMENT (jamais demandé en entrée elles ne sont pas directement générées mais extraites du champ contenu).
+- Les prompts intermédiaires doivent être rédigés en français
+Toute version qui contredit ce contrat est nulle et doit être rejetée.
+=== FIN CONTRAT IMMUTABLE ===
+
+CONTRAINTE DSPy :
+- Sortir uniquement : contenu (string), url (string|null), date (YYYY-MM-DD), expressions_clefs (array de strings), type_de_document, theme, categorie.
+- `expressions_clefs` doit apparaître à l’identique dans `contenu`.
+- Ne pas solliciter d’entrées supplémentaires (jamais demander des expressions clés).
+- L'url et la date doivent être inventées.
+
+But final
+Générer une note exploitable pour l'affinage (fine tuning) d'un LLM dans le bus de classifier des notes de lecture ou en extraire de expressions clés caractéristiques.

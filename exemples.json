@@ -1,0 +1,80 @@
+[
+    {
+        "categorie": "synthèse",
+        "date": "2025-03-29 20:27:28",
+        "type_du_document" : "rapport",
+        "theme": "commission Warren",
+        "expressions_clefs": ['assassinat', 'John F. Kennedy', 'Lee Harvey Oswald', 'conspiration', 'théories du complot', 'Earl Warren', 'rapport'],
+        "contenu" : "La commission Warren a été créée en 1963 pour enquêter sur l'assassinat du président John F. Kennedy.\
+                    Dirigée par le juge Earl Warren, elle a conclu que Lee Harvey Oswald était l'unique assassin\
+                    et qu'il n'y avait pas de conspiration.\
+                    Cependant, son rapport a été sujet à de nombreuses controverses et théories du complot,\
+                    remettant en question la validité de ses conclusions.", 
+        "url": "https://www.archives.gov/research/jfk/warren-commission-report"
+    },
+    {
+        "categorie": "extrait",
+        "date": "21/10/2023",
+        "type_du_document":"manuel",
+        "theme":"spiritualité",
+        "expressions_clefs": ["Yi King"],
+        "contenu": "Le feu rayonne Tong Ren est l’hexagramme de l’entente et de la relation\
+                    à l’autre. Il nous invite à sortir de notre groupe d’amis ou de notre famille\
+                    pour aller au-delà de nos frontières habituelles. C’est typiquement le moment\
+                    de nous socialiser et de cultiver la convivialité. Nous devons nous créer un\
+                    réseau de connaissances qui nous sorte de nos habitudes confortables. C’est\
+                    également le moment d’apprendre à dire oui.\n",
+        "url": "https://lire.amazon.fr/kp/kshare?asin=B00SN5MNP4&id=wbcez2aznzhaphbqwselvztfzm&ref_=r_sa_glf_b_0_hdrw_ss_AAu5AAA"
+    },
+    {
+        "categorie": "commentaire",
+        "date": "21/08/2023",
+        "type_du_document":"tweet",
+        "theme":"informatique",
+        "expressions_clefs": ["raisonnement","espace latent"],
+        "contenu": "Un tweet sur les espaces latents des raisonnements au sein des LLM",
+        "url": "https://lire.amazon.fr/kp/kshare?asin=B00SN5MNP4&id=wbcez2aznzhaphbqwselvztfzm&ref_=r_sa_glf_b_0_hdrw_ss_AAu5AAA"
+    },
+    {
+        "categorie": "synthèse",
+        "date": "22/08/2023",
+        "type_du_document":"article technique",
+        "theme":"informatique",
+        "expressions_clefs": ["ColBERT","architecture"],
+        "contenu": "Un article clair sur Medium permettant de comprendre le fonctionnement et l'architecture de ColBERT d'Omar Khattab.\
+                    L'article décrit, en particulier, les architectures concurrentes et pourquoi ColBERT est plus rapide.\
+                    C'est un excellent article d'introduction à ColBERT.",
+        "url": "https://pangyoalto.com/en/colbertv1-2-review-en/"
+    },
+    {
+        "categorie": "texte_libre",
+        "date": "21/08/2023",
+        "type_du_document":"note personnelle",
+        "theme":"informatique",
+        "expressions_clefs": ["canal sécurisé","associations","petits modèles de langage"],
+        "contenu": "Comment sauver sur une machine locale par un canal sécurisé (Session) des notes et\
+        rechercher automatiquement des associations entre elles grâce à un petit modèle de langage (SLM).",
+        "url": ""
+    },
+    {
+        "categorie": "texte_libre",
+        "date": "21/08/2023",
+        "contenu": """
+                    Le conte dit que, lorsqu’il eut fait justice de Méléagant, Lancelot demeura quelque temps à la cour, où il n’est joie et plaisir qu’il n’obtint de la reine sa mie. On lui apprit comment Bohor était arrivé et les prouesses qu’il avait faites contre cinq des meilleurs de la Table ronde ; puis comment le roi, la reine et tous les chevaliers étaient montés dans la charrette. Il en sourit de plaisir.
+                    — Beau cousin, dit-il à Bohor, n’ayez pas si bien commencé pour laisser désormais toute chevalerie ; mais gardez, pour l’amour de moi, qu’aucune dame ou demoiselle requière jamais votre aide sans l’obtenir.
+                    Personne n’avait osé lui annoncer la mort de Galehaut : aussi pensait-il que son ami était retourné dans sa terre.
+                    — Dame, dit-il un jour à la reine, il me faut aller aux Iles lointaines : quand je saurai des nouvelles de mon compagnon, j’aurai le cœur plus joyeux.
+                    Ah ! peu s’en fallut qu’elle ne lui avouât la vérité ! Mais elle songeait au chagrin qu’il aurait quand il apprendrait la mort de Galehaut, et son cœur se serra si fort qu’il s’en fallut de peu qu’elle ne pâmât.
+                    — Beau doux ami, dit-elle seulement, que Notre Sire vous conduise !
+                    Et, le lundi, Lancelot s’arma au sortir de la messe et partit si secrètement que personne ne le vit, hors sa dame qui avait monté sur la plus haute tour et le suivit longtemps des yeux.
+                    Il chevaucha tant qu’il parvint dans une forêt haute, grande et agréable à y errer ; là, bien qu’il fît grand chaud, sous les arbres feuillus l’ombre était agréable. Il était fort en peine de son chemin, lorsqu’il découvrit des traces de chevaux : il les suivit à bonne allure et ne tarda pas à joindre une demoiselle qui chevauchait noblement sur un beau palefroi, suivie de ses gens ; elle était toute vieille et chenue, pourtant elle avait ses cheveux déliés sur les épaules à la façon des pucelles, et sur la tête une couronne de roses ; ainsi qu’il convient environ la Saint-Jean.
+                    — Demoiselle, lui dit-il après l’avoir saluée, me sauriez-vous enseigner le chemin qui mène à la terre de Galehaut ?
+                    — En nom Dieu, je puis bien vous l’enseigner, mais pourvu que vous m’accordiez un don : c’est que vous me suivrez dès que je vous en requerrai.
+                    Lancelot octroya le don. Hélas ! il s’en repentit et chagrina assez quand le moment fut venu !
+                    """,
+            "type_du_document":"note personnelle",
+            "theme":"roman de  chevalerie",
+            "expressions_clefs": ["canal sécurisé","associations","petits modèles de langage"],
+            "url": "https://fr.wikisource.org/wiki/Le_Ch%C3%A2teau_aventureux/1"
+    }
+]

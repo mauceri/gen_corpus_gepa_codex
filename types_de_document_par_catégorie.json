@@ -1,0 +1,6 @@
+{
+    "extrait": ["roman original", "article scientifique", "essai","roman","rapport", "article encyclopédique"],
+    "commentaire": ["tweet", "article Wikipédia", "post de forum"],
+    "synthese": ["rapport", "article encyclopédique", "ouvrage collectif","roman","manuel"],
+    "texte_libre": ["note personnelle", "email", "discussion orale"],
+}

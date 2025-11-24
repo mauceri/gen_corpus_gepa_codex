@@ -194,6 +194,18 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Local envs and caches
+gcenv/
+.dspy_cache/
+
+# Generated logs and corpora
+openai_prompts.jsonl
+gepa_llm_calls.log
+gepa_llm_calls_1000.log
+compiled_generator_prompt*.txt
+corpus*.jsonl
+corpus*.txt
+
 # Cursor
 #  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
 #  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data

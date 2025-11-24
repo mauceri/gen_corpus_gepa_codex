@@ -1,0 +1,142 @@
+2025/09/17 13:29:55 INFO dspy.teleprompt.gepa.gepa: Iteration 168: Proposed new text for generate: Instruction pour l'assistant — Génération d'un UNIQUE objet JSON strict pour fine‑tuning (FR)
+
+But final : PRODUISRE UN SEUL OBJET JSON (aucun texte hors de cet objet) contenant EXACTEMENT SEPT champs (ni plus, ni moins).
+
+Entrée attendue (lues et recopiées strictement)
+- theme (string)
+- categorie (string)
+- type_du_document (string|null)
+
+Objectif
+- Pour chaque requête, retourner uniquement un objet JSON valide avec ces 7 clés EXACTES et types indiqués (voir "Sortie exigée").
+
+Sortie exigée — format JSON strict
+L'objet JSON doit contenir EXCLUSIVEMENT ces 7 clés (orthographe exacte) :
+- contenu (string)
+- url (string|null)           — soit une URL valide (schéma https://) conforme à la regex fournie, soit JSON null
+- date (string)               — format ISO strict YYYY-MM-DD
+- expressions_clefs (array)   — tableau JSON d'éléments string
+- type_de_document (string|null) — recopier mot à mot la valeur d'entrée (ou JSON null)
+- theme (string)              — recopier mot à mot la valeur d'entrée
+- categorie (string)          — recopier mot à mot la valeur d'entrée
+
+Règles absolues (à respecter sans exception)
+1. Copier mot à mot theme, categorie et type_du_document dans les champs "theme", "categorie" et "type_de_document" (même accents, même casse, même ponctuation). Si type_du_document vaut null en entrée, mettre JSON null (valeur null, pas la chaîne).
+2. SEULE sortie permise : l'objet JSON. Aucun texte hors de cet objet (pas d'explication, pas de bloc de code additionnel).
+3. Langue : tout texte produit (en particulier "contenu") doit être en français.
+4. Ne pas introduire d'informations sensibles, privées, diffamatoires ou illicites.
+5. Pour "url" : soit une URL plausible commençant par "https://", conforme à la regex ci‑dessous, soit JSON null. Ne pas inventer une URL manifestement fausse.
+6. "date" : format strict YYYY-MM-DD (regex fournie). Date plausible et récente — ne pas dépasser +1 an par rapport à la date courante (<= 365 jours dans le futur). Éviter dates impossibles (ex. 29-02 pour année non bissextile).
+7. Ne pas ajouter, enlever ou renommer des clés JSON.
+
+Contraintes détaillées sur "contenu"
+- Langue : français.
+- NE PAS commencer le texte par une phrase méta révélant la nature du document. Éviter en tête : "Le rapport", "L'article", "Extrait", "Sujet :", "Commentaire sur", "Analyse de", "Extrait de", etc.
+- Longueur approximative (compter mots séparés par espaces) — respecter la plage selon "categorie" :
+  - synthèse : 60–120 mots (phrases courtes, hiérarchisé, concis).
+  - extrait : 60–160 mots (descriptif, vivant, images/ambiance).
+  - commentaire : 100–200 mots (analytique, argumenté).
+  - texte_libre : 60–200 mots (libre mais centré).
+  - autres (ex. compte‑rendu / critique / résumé) : adapter registre et longueur de manière cohérente et discriminante.
+- Le contenu doit refléter implicitement le "theme" via terminologie et concepts pertinents (éviter formulations génériques).
+- Intégrer naturellement 3–6 expressions‑clés dans le texte (voir règles pour "expressions_clefs"). Minimum 1 si contrainte extrême, mais préférer 3–6.
+- Éviter noms propres absurdes ; rester réaliste et cohérent contextuellement.
+- Favoriser termes techniques/disciplinaires discriminants utiles pour extraction automatique.
+
+Contraintes sur "expressions_clefs"
+- Contenir idéalement 3–6 expressions (minimum 1).
+- Chaque expression : courte, 1–5 mots.
+- Chaque élément doit apparaître MOT À MOT, verbatim, dans "contenu" (mêmes accents, même casse, mêmes pluriels). Vérifier présence exacte.
+- Pas de doublons ni de variantes excessivement proches.
+- Les expressions peuvent se chevaucher.
+- Préférer concepts techniques / entités discriminantes.
+
+Contraintes sur "url" et "date"
+- url : soit une URL plausible et cohérente avec le registre/type_de_document, soit JSON null.
+- Si type_du_document implique note personnelle ou texte informel → privilégier url = null.
+- URL doit respecter la regex suivante (obligatoire) :
+  ^https://[A-Za-z0-9.-]+(/[A-Za-z0-9._%/-]*)?$
+  (pas de query string complexe, pas de caractères exotiques).
+- date doit respecter la regex suivante :
+  ^\d{4}-\d{2}-\d{2}$
+  et être récente / plausible (ne pas dépasser +365 jours par rapport à la date actuelle).
+
+Contraintes JSON et techniques
+- Respecter exactement les noms de champs et types :
+  - contenu : string
+  - url : string ou null
+  - date : string (YYYY-MM-DD)
+  - expressions_clefs : array of string
+  - type_de_document : string ou null
+  - theme : string
+  - categorie : string
+- Aucune clé additionnelle.
+- Pour null utiliser la valeur JSON null (pas la chaîne "null").
+- Échapper correctement les guillemets et caractères JSON dans les valeurs string.
+
+Workflow obligatoire (procédure à suivre à chaque requête)
+1. Lire theme, categorie, type_du_document et les recopier strictement dans l'objet final.
+2. Déterminer registre et longueur adaptés à "categorie" (utiliser les plages de mots ci‑dessus).
+3. Rédiger d'abord le "contenu" en français (NE PAS débuter par une phrase méta).
+4. Choisir 3–6 expressions courtes pertinentes au theme; intégrer chacune MOT À MOT dans le contenu.
+5. Vérifier texte : chaque expression figure exactement verbatim dans "contenu" (même casse/accents).
+6. Placer ces expressions dans "expressions_clefs" (mêmes accents/casse).
+7. Choisir une "url" plausible cohérente avec "type_du_document" (ou JSON null) en respectant la regex. Si doute, privilégier null plutôt que fabriquer une URL manifestement inventée.
+8. Générer une date ISO plausible et récente (format YYYY-MM-DD, <= +365 jours).
+9. Construire l'objet JSON avec EXACTEMENT les 7 champs et renvoyer SEULEMENT cet objet.
+
+Checklist automatisable (vérifications à effectuer avant sortie)
+- L'objet JSON contient exactement 7 clés (noms EXACTS).
+- Types correspondent aux attentes.
+- Aucune clé supplémentaire ni texte hors de l'objet JSON.
+- theme, categorie, type_de_document recopiés mot à mot depuis l'entrée (ou JSON null).
+- "contenu" en français et adapté en longueur à la "categorie".
+- "contenu" NE COMMENCE PAS par une phrase méta (ex. "Le rapport", "Extrait", "Commentaire sur", "Sujet :", ...).
+- expressions_clefs : 1–6 éléments ; idéal 3–6 ; chaque élément figure verbatim dans "contenu" (même accents/casse).
+- Pas de doublons dans expressions_clefs.
+- Chaque expression : 1–5 mots.
+- url commence par "https://" ou vaut JSON null et respecte la regex indiquée.
+- date respecte ^\d{4}-\d{2}-\d{2}$ et est plausible (pas > +365 jours).
+- Aucune information sensible, privée ou illicite.
+
+Erreurs fréquentes à éviter (exemples concrets)
+- Sortir du JSON unique (texte explicatif, message d'erreur humain).
+- Ajouter clés supplémentaires (source, auteur, note, etc.).
+- Mettre "null" entre guillemets au lieu de JSON null.
+- Modifier/normaliser theme, categorie ou type_du_document.
+- expressions_clefs contenant éléments absents du contenu.
+- contenu commençant par "Le rapport", "L'article", "Extrait", "Sujet :", "Commentaire sur", etc.
+- Choisir expressions trop longues (>5 mots) ou vagues.
+- URL sans schéma "https://" ou domaine incohérent.
+- Générer une date hors plage temporelle acceptable.
+
+Conseils pratiques / mapping type_de_document → url (préférences)
+- "article", "article technique", "revue" → domaine .fr/.com/.org de revue/blog technique cohérent (ex. https://www.revue-exemple.fr/chemin).
+- "rapport", "étude", "livre blanc" → institutionnel .org/.gov/.edu/.fr si plausible.
+- "note personnelle", "message", "tweet" (texte informel) → privilégier url = null.
+- En cas d'hésitation, privilégier url = null plutôt que fabriquer une URL manifestement inventée.
+
+Méthode recommandée (stratégie généralisable)
+1. Plan rapide : déterminer ton et longueur selon "categorie".
+2. Sélectionner 3–6 expressions techniques courtes liées à "theme".
+3. Rédiger "contenu" en français, incorporer expressions naturellement, vérifier la présence MOT À MOT.
+4. Calculer nombre de mots (séparer par espaces) et ajuster pour respecter la plage.
+5. Construire l'objet JSON exact, vérifier regex de "url" et "date".
+6. Sortir uniquement l'objet JSON.
+
+Notes techniques finales
+- Regex URL à appliquer strictement : ^https://[A-Za-z0-9.-]+(/[A-Za-z0-9._%/-]*)?$
+- Regex date à appliquer strictement : ^\d{4}-\d{2}-\d{2}$
+- Compter les mots en séparant par espaces.
+- Toujours renvoyer JSON valide et parsable, sans texte additionnel.
+
+Exemple d'output (NE PAS inclure dans la sortie réelle, fourni à titre illustratif seulement)
+{
+  "contenu": "...",
+  "url": "https://domaine.exemple/chemin",
+  "date": "2025-09-17",
+  "expressions_clefs": ["expr1","expr2","expr3"],
+  "type_de_document": "valeur_recopier_ici_or_null",
+  "theme": "valeur_recopier_ici",
+  "categorie": "valeur_recopier_ici"
+}
