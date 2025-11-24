@@ -70,6 +70,15 @@ def ensure_text(value: Any) -> str:
         return str(value)
 
 
+def is_placeholder_prompt(text: str) -> bool:
+    if not text:
+        return True
+    lower = text.lower()
+    if "given the fields" in lower and "produce the fields" in lower:
+        return True
+    return len(lower.strip()) < 40
+
+
 def _extract_python_rhs_container(text: str, open_ch: str, close_ch: str) -> str:
     """Extrait un littéral conteneur Python (liste/dict) à partir du texte."""
     start = text.find(open_ch)
@@ -428,6 +437,42 @@ def build_trainset(exemples: List[dict]) -> List[dspy.Example]:
     ]
 
 
+def extract_best_prompt(compiled_generator, teleprompter, initial_prompt: str) -> str:
+    candidates: List[str] = []
+
+    # GEPA trackers
+    for attr in ("best_prompt", "best_prompt_str", "best_prompt_text"):
+        val = getattr(teleprompter, attr, None)
+        if val:
+            candidates.append(ensure_text(val))
+
+    best_prompts_dict = getattr(teleprompter, "best_prompts", None)
+    if isinstance(best_prompts_dict, dict):
+        for val in best_prompts_dict.values():
+            if val:
+                candidates.append(ensure_text(val))
+
+    # Compiled generator signatures
+    sigs = [
+        getattr(getattr(compiled_generator, "generate", None), "signature", None),
+        getattr(compiled_generator, "signature", None),
+    ]
+    for sig in sigs:
+        if sig is None:
+            continue
+        instr = getattr(sig, "instructions", None) or getattr(sig, "__doc__", None)
+        if instr:
+            candidates.append(ensure_text(instr))
+
+    # Fallback to the initial prompt
+    candidates.append(initial_prompt)
+
+    for cand in candidates:
+        if not is_placeholder_prompt(cand):
+            return cand
+    return ensure_text(initial_prompt)
+
+
 def train_generator(prompt_text: str, exemples: List[dict], comparator: TextComparatorGlobal, cfg: Config):
     generator = build_note_generator(prompt_text)
     trainset = build_trainset(exemples)
@@ -445,7 +490,7 @@ def train_generator(prompt_text: str, exemples: List[dict], comparator: TextComp
     except RuntimeError as e:
         raise RuntimeError(f"Échec GEPA (quota ou autre): {e}") from e
 
-    best_prompt = getattr(compiled_generator.generate.signature, "instructions", "") or ""
+    best_prompt = extract_best_prompt(compiled_generator, teleprompter, ensure_text(prompt_text))
     return compiled_generator, best_prompt
 
 
